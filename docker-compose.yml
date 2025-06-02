@@ -1,0 +1,34 @@
+# docker-compose.yml
+
+services:
+    user:
+        build:
+            context: ./userservice
+        image: microservice/demo/user
+        restart: "no"
+        environment:
+            - DB_URI=mongodb://mongo:27017/
+            - DB_NAME=Microservice-demo-user
+        ports:
+            - 8080:50051
+        volumes:
+            - ./protos:/app/protos  # 👈 mount shared protos folder at runtime
+        depends_on:
+            - mongo
+
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: Microservice-demo-user
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db
+            - mongodb_config:/data/configdb
+
+volumes:
+    postgresdb:
+    mysqldb:
+    mongodb:
+    mongodb_config:

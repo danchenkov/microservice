@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package userpackage;
+
+option go_package = "github.com/danchenkov/microservice-demo/protos/user";
+
+service UserService {
+    rpc Register (RegisterRequest) returns (UserResponse);
+    // Add other RPCs here
+    rpc Login (LoginRequest) returns (UserResponse);
+    rpc Verify (VerifyRequest) returns (VerifyResponse);
+    rpc GetUser (GetUserRequest) returns (VerifyResponse);
+}
+
+message RegisterRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message UserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string token = 4;
+}
+
+message VerifyRequest {
+    string token = 1;
+}
+
+message GetUserRequest {
+    string user_id = 1;
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message VerifyResponse {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+}
